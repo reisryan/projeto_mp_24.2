@@ -1,6 +1,6 @@
-Data	Horas Trabalhadas	Tipo tarefa	Descrição
-27/01	1h	Revisar especificações	Discussão com o grupo sobre o projeto
-30/01	2h	Estudar aulas e laboratórios relacionados	Revisão dos materiais de aula
-03/02	2h	redigir casos de teste	Criação de casos de teste para o programa
-04/02	1h	revisar casos de teste	analise dos casos de teste criados
-04/02	2h	realizar os testes	Realização dos testes implementados até o momento
+Data	Horas Trabalhadas	Tipo tarefa	                                Descrição
+27/01	1h	                Revisar especificações	                        Discussão com o grupo sobre o projeto
+30/01	2h	                Estudar aulas e laboratórios relacionados	Revisão dos materiais de aula
+03/02	2h	                redigir casos de teste	                        Criação de casos de teste para o programa
+04/02	1h	                revisar casos de teste	                        analise dos casos de teste criados
+04/02	2h	                realizar os testes	                        Realização dos testes implementados até o momento

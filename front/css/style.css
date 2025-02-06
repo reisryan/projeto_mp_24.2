@@ -4,7 +4,7 @@ body {
     background-repeat: no-repeat;
     background-position: center;
     align-items: center;
-    height: 100vh;
+    height: 100vh   ;
     display: flex;
     justify-content: center;
     backdrop-filter: blur(1px) saturate(125%) constrast:(75%) brightness:(125%);

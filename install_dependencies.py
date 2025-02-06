@@ -2,8 +2,10 @@ import sys
 import subprocess
 
 def install_packages():
+    
     packages = [
-        "pycodestyle", "pytest", "django", "pyflakes", "coverage", "sphinx","pytest-django","selenium",
+        "pycodestyle", "pytest", "django", "pyflakes", "coverage", 
+        "sphinx", "pytest-django", "selenium",
     ]
     
     try:

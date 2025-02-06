@@ -25,8 +25,8 @@ def signup_view(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            login(request, user)  # Loga o usuário após o cadastro
-            return redirect('home')  # Redirecionar para a página inicial
+            #login(request, user)  # Loga o usuário após o cadastro
+            return redirect('login')  # Redirecionar para a página inicial
     else:
         form = UserCreationForm()
     return render(request, 'front/signup.html', {'form': form})

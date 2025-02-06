@@ -10,6 +10,7 @@
     <main class="container mt-5">
         <p>Bem vindo a feira, faça o login</p>
         <form method="POST" action="">
+            {% csrf_token %}
             <fieldset>
                 <legend>Login</legend>
                 <div class="mb-3">

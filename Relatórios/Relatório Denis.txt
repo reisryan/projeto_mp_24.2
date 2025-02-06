@@ -1,0 +1,5 @@
+Data          Horas trabalhadas          tipo de tarefa                    Descrição
+
+03/02         2h                         Revisão do material de base       Revisão do material teórico a fim de embasamento.
+05/02         1h                         Design                            Planejamento de uma visão geral do backend.
+Fev           2h/dia                     Estudo em programação             Aprendizagem de Python para a implementação. 

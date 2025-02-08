@@ -21,9 +21,13 @@ def login(request):
         user = authenticate(request, username=username, password=password)
 
         if user is not None:
-            # Faz o login do usuário
             auth_login(request, user)
-            return redirect('pagina_inicial')  # Redireciona para a página inicial após o login
+            # se for consumidor redireciona para a página do consumidor
+            if user.tipo_user == 'CON':
+                return redirect('consumidor_page')
+            # se for feirante redireciona para a página do feirante
+            else:
+                return redirect('feirante_page')
         else:
             # Retorna uma mensagem de erro se a autenticação falhar
             return HttpResponse('Usuário ou senha incorretos')
@@ -50,4 +54,10 @@ def cadastro(request):
                 HttpResponse('Usuario cadastrado com sucesso')
                 return redirect('login')
             
-        
+def consumidor_page(request):
+    if request.method == 'GET':
+        return render(request, 'usuarioLogado.html')
+
+def feirante_page(request):
+    if request.method == 'GET':
+        return render(request, 'feirante.html')

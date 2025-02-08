@@ -30,6 +30,7 @@
         </header>
 
         <form method="GET" action="/pesquisa/">
+            {% csrf_token %}
             <div class="form-group">
                 <input type="text" name="query" class="form-control" placeholder="Buscar produto..." required>
             </div>

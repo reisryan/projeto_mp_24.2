@@ -1,45 +1,53 @@
 from django.http import HttpResponse
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 
 def index(request):
     return HttpResponse("Hello, world. You're at the feiras index.")
 
 from django.shortcuts import render
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login as auth_login
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.http import HttpResponse
 
 def login(request):
-    if request.method == 'POST':
-        form = AuthenticationForm(request, data=request.POST)
-        if form.is_valid():
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password')
-            user = authenticate(username=username, password=password)
-            if user is not None:
-                login(request, user)
-                return redirect('home')  # Redirecionar para a página inicial
+    if request.method == 'GET':
+        return render(request, 'login.html')
     else:
-        form = AuthenticationForm()
-    return render(request, 'login.html', {'form': form})
+        username = request.POST['username']
+        password = request.POST['password']
+
+        # Autentica o usuário
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            # Faz o login do usuário
+            auth_login(request, user)
+            return redirect('pagina_inicial')  # Redireciona para a página inicial após o login
+        else:
+            # Retorna uma mensagem de erro se a autenticação falhar
+            return HttpResponse('Usuário ou senha incorretos')
 
 def cadastro(request):
     if request.method == 'GET':
         return render(request, 'cadastro.html')
     else:
-        username = request.POST['name']
+        username = request.POST['username']
         email = request.POST['email']
-        phone = request.POST['phone']
+        phone = request.POST['telefone']
         senha = request.POST['password']
-        tipo_usuario = request.POST['user_type']
+        tipo_usuario = request.POST['tipo_user']
 
-        user = User.objects.get(username=username, email=email, password=senha)
-        if user:
-            return HttpResponse('Já existe um usuário com esse email')
+        if get_user_model().objects.filter(username=username).exists():
+            return HttpResponse('Usuário já cadastrado')
         else:
-            '''user = User.objects.create_user(username, email, senha)
-            user.save()
-            return redirect('login')'''
+            try:
+                user = get_user_model().objects.create_user(username=username, email=email, telefone=phone, password=senha, tipo_user=tipo_usuario)
+            except:
+                return HttpResponse('Erro ao cadastrar usuário')
+            else:
+                user.save()
+                HttpResponse('Usuario cadastrado com sucesso')
+                return redirect('login')
+            
         
-        return HttpResponse('Usuário cadastrado com sucesso')

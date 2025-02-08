@@ -1,20 +1,16 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
 
-class TipoUser(models.Model):
-    descricao = models.CharField(max_length=50)
-
-    def __str__(self):
-        return self.descricao
-
-class User(models.Model):
-    tipo_user = models.ForeignKey(TipoUser, on_delete=models.CASCADE)
-    nome = models.CharField(max_length=100)
-    email = models.EmailField(unique=True)
+class User(AbstractUser):
+    class TipoUser(models.TextChoices):
+        ADMINISTRADOR = 'ADM', 'Administrador'
+        FEIRANTE = 'FEI', 'Feirante'
+        CONSUMIDOR = 'CON', 'Consumidor'
+    
+    base_user = TipoUser.ADMINISTRADOR
+    tipo_user = models.CharField(max_length=3, choices=TipoUser.choices, default=base_user)
+    
     telefone = models.CharField(max_length=20, blank=True, null=True)
-    senha = models.CharField(max_length=128)  # Melhor usar Django's authentication system
-
-    def __str__(self):
-        return self.nome
 
 class Feira(models.Model):
     nome = models.CharField(max_length=100, unique=True)

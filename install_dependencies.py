@@ -5,7 +5,7 @@ def install_packages():
     
     packages = [
         "pycodestyle", "pytest", "django", "pyflakes", "coverage", 
-        "sphinx", "pytest-django", "selenium",
+        "sphinx", "pytest-django", "selenium","webdriver-manager"
     ]
     
     try:

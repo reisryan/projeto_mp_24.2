@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pesquisa de Produtos</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+        .product-card {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 15px;
+        }
+        .logout-btn {
+            float: right;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="d-flex justify-content-between align-items-center mb-4">
+            <h2>Site da Feira</h2>
+            <a href="/logout" class="btn btn-danger logout-btn">Sair</a>
+        </header>
+
+        <form method="GET" action="/pesquisa/">
+            <div class="form-group">
+                <input type="text" name="query" class="form-control" placeholder="Buscar produto..." required>
+            </div>
+            <button type="submit" class="btn btn-primary">Pesquisar</button>
+        </form>
+
+        <h3 class="mt-4">Resultados da Pesquisa</h3>
+        <div class="product-card">
+            <h4>Produto Exemplo</h4>
+            <p>Banca: Feira Central</p>
+            <p>Avaliação: ⭐⭐⭐⭐☆ (4.0)</p>
+            <a href="/detalhes/1" class="btn btn-info">Ver detalhes</a>
+        </div>
+
+        <div class="product-card">
+            <h4>Produto Exemplo 2</h4>
+            <p>Banca: Mercado Popular</p>
+            <p>Avaliação: ⭐⭐⭐⭐⭐ (5.0)</p>
+            <a href="/detalhes/2" class="btn btn-info">Ver detalhes</a>
+        </div>
+    </div>
+</body>
+</html>

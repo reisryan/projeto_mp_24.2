@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciar Produtos</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+        .product-card {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 15px;
+        }
+        .logout-btn {
+            float: right;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="d-flex justify-content-between align-items-center mb-4">
+            <h2>Painel do Feirante</h2>
+            <a href="/logout" class="btn btn-danger logout-btn">Sair</a>
+        </header>
+
+        <h3>Adicionar Novo Produto</h3>
+        <form method="POST" action="/adicionar-produto/">
+            <div class="form-group">
+                <label for="nome_produto">Nome do Produto</label>
+                <input type="text" id="nome_produto" name="nome_produto" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="preco">Preço</label>
+                <input type="number" id="preco" name="preco" class="form-control" step="0.01" required>
+            </div>
+            <div class="form-group">
+                <label for="descricao">Descrição</label>
+                <textarea id="descricao" name="descricao" class="form-control" rows="3" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-success">Adicionar Produto</button>
+        </form>
+
+        <h3 class="mt-4">Seus Produtos</h3>
+        <div class="product-card">
+            <h4>Produto Exemplo</h4>
+            <p>Preço: R$ 10,00</p>
+            <p>Descrição: Produto fresco e de alta qualidade.</p>
+            <a href="/editar/1" class="btn btn-warning">Editar</a>
+            <a href="/remover/1" class="btn btn-danger">Remover</a>
+        </div>
+
+        <div class="product-card">
+            <h4>Produto Exemplo 2</h4>
+            <p>Preço: R$ 15,00</p>
+            <p>Descrição: Direto do produtor.</p>
+            <a href="/editar/2" class="btn btn-warning">Editar</a>
+            <a href="/remover/2" class="btn btn-danger">Remover</a>
+        </div>
+    </div>
+</body>
+</html>

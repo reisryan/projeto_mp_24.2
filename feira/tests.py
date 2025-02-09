@@ -8,12 +8,16 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from django.contrib.auth import get_user_model
+
 
 @pytest.mark.django_db
 def test_admin_200(client):
     url = "/admin/login/?next=/admin/"
     response = client.get(url)
     assert response.status_code == 200
+
+User = get_user_model()
 
 @pytest.mark.django_db
 def test_create_superuser():

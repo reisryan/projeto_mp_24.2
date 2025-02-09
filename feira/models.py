@@ -22,7 +22,7 @@ class Feira(models.Model):
 
 class Barraca(models.Model):
     nome = models.CharField(max_length=100)
-    dono_user = models.ForeignKey(User, on_delete=models.CASCADE, limit_choices_to={'tipo_user__descricao': 'Feirante'})
+    dono_user = models.ForeignKey(User, on_delete=models.CASCADE)
     longitude = models.FloatField()
     latitude = models.FloatField()
     feira = models.ForeignKey(Feira, on_delete=models.CASCADE)
@@ -31,30 +31,21 @@ class Barraca(models.Model):
     def __str__(self):
         return f"{self.nome} - {self.feira.nome}"
 
-class TipoProduto(models.Model):
-    descricao = models.CharField(max_length=50, unique=True)
-
-    def __str__(self):
-        return self.descricao
-
 class Produto(models.Model):
+    class TipoProduto(models.TextChoices):
+        VESTIMENTA = 'VEST', 'Vestimenta'
+        ACESSORIOS = 'ACES', 'Acessórios'
+        TECNOLOGIA = 'TECN', 'Tecnologia'
+
+    base_tipo_produto = TipoProduto.ACESSORIOS
+    tipo_produto = models.CharField(max_length=4, choices=TipoProduto.choices, default=base_tipo_produto)
+    barraca = models.ForeignKey(Barraca, on_delete=models.CASCADE)
     nome = models.CharField(max_length=100)
     preco = models.DecimalField(max_digits=10, decimal_places=2)
-    tipo_produto = models.ForeignKey(TipoProduto, on_delete=models.CASCADE)
     nota_media = models.FloatField(default=0.0)
 
     def __str__(self):
         return self.nome
-
-class ProdutoBarraca(models.Model):
-    produto = models.ForeignKey(Produto, on_delete=models.CASCADE)
-    barraca = models.ForeignKey(Barraca, on_delete=models.CASCADE)
-
-    class Meta:
-        unique_together = ('produto', 'barraca')
-
-    def __str__(self):
-        return f"{self.produto.nome} em {self.barraca.nome}"
 
 class Review(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

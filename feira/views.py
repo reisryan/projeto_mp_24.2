@@ -78,9 +78,7 @@ def search(request):
      # Aplicar filtro de preço
     if filtro == 'menor_preco':
         produtos = produtos.order_by('preco')
-        print("aqui")
     elif filtro == 'maior_preco':
         produtos = produtos.order_by('-preco')
-        print("aqui2")
-    
+        
     return render(request, 'usuarioLogado.html', {'searched': searched, 'produtos': produtos})

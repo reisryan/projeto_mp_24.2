@@ -53,10 +53,10 @@
             {% for produto in produtos %}
                 <div class="product-card">
                     <h4>{{ produto.nome }}</h4>
-                    <p>Banca: {{ produto.banca }}</p>
+                    <p>Barraca: {{ produto.barraca.nome}}</p>
+                    <p>Tipo: {{  produto.get_tipo_produto_display }}</p>
                     <p>Preço: {{ produto.preco }}</p>
-                    <p>Avaliação: ({{ produto.avaliacao }})</p>
-                    <a href="" class="btn btn-info">Ver detalhes</a>
+                    <p>Avaliação: ({{ produto.nota_media }})</p>
                 </div>
             {% endfor %}
         {% else %}

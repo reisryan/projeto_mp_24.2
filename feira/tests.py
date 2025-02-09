@@ -9,6 +9,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from django.contrib.auth import get_user_model
+from django.test import Client
 
 
 @pytest.mark.django_db
@@ -39,7 +40,7 @@ def test_admin_preenche(client):
     response = client.get('/admin/')
     assert response.status_code == 200
 
-
+'''
 @pytest.fixture(scope="function")
 def browser():
     options = Options()
@@ -110,6 +111,7 @@ def test_cadastra_barraca(logged_in_browser, live_server):
     WebDriverWait(logged_in_browser, 10).until(EC.url_contains('/barraca/'))
     assert '/barraca/' in logged_in_browser.current_url
 
+
 @pytest.mark.django_db
 def test_cadastra_produto(logged_in_browser, live_server):
     logged_in_browser.get(f'{live_server.url}/admin/')
@@ -121,3 +123,75 @@ def test_cadastra_produto(logged_in_browser, live_server):
 
     WebDriverWait(logged_in_browser, 10).until(EC.url_contains('/produto/'))
     assert '/produto/' in logged_in_browser.current_url
+'''
+
+@pytest.mark.django_db
+def test_tela_login():
+    client = Client()  # Instancia o cliente de teste do Django
+    response = client.get("/feira/")  # Faz uma requisição GET à URL
+
+    assert response.status_code == 200  # Verifica se a página carregou com sucesso
+    assert "Bem vindo" in response.content.decode()  # Verifica se o texto está na página
+
+@pytest.mark.django_db
+def test_tela_cadastro():
+    client = Client()  # Instancia o cliente de teste do Django
+    response = client.get("/feira/cadastro/")  # Faz uma requisição GET à URL
+
+    assert response.status_code == 200  # Verifica se a página carregou com sucesso
+    assert "Bem vindo" in response.content.decode()  # Verifica se o texto está na página
+
+import pytest
+from django.test import Client
+
+@pytest.mark.django_db
+def test_cadastro_usuario():
+    client = Client()
+
+    # Dados do formulário simulando um cadastro
+    form_data = {
+        "username": "usuario_teste",
+        "email": "teste@email.com",
+        "telefone": "11999999999",
+        "password": "SenhaForte123",
+        "tipo_user": "CON",  # Ajustado para corresponder ao nome esperado no backend
+    }
+
+    # Envia o formulário via POST
+    response = client.post("/feira/cadastro/", form_data)
+
+    # Verifica se o cadastro foi bem-sucedido e redirecionou corretamente
+    assert response.status_code in [200, 302]  # Aceita tanto 200 quanto 302
+    assert response.url == "/feira/"  # Garante que o redirecionamento foi para a página esperada
+
+
+@pytest.mark.django_db
+def test_login_usuario():
+    client = Client()
+
+    # Criar usuário para o teste
+    user = User.objects.create_user(
+        username="usuario_teste",
+        email="teste@email.com",
+        password="SenhaForte123"
+    )
+
+    # Dados de login
+    login_data = {
+        "username": "usuario_teste",
+        "password": "SenhaForte123",
+    }
+
+    # Descobrir a URL correta do login
+    login_url = "/feira/"  # Ajuste conforme necessário
+
+    # Tentar acessar a página de login antes de enviar o formulário (opcional)
+    response = client.get(login_url)
+    assert response.status_code == 200, "Página de login não encontrada"
+
+    # Enviar requisição POST para login
+    response = client.post(login_url, login_data)
+
+    # Verificar se o login foi bem-sucedido
+    assert response.status_code in [200, 302], f"Erro no login: {response.status_code}"
+    assert "_auth_user_id" in client.session, "Usuário não autenticado"

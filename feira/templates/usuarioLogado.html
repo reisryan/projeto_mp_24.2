@@ -29,7 +29,7 @@
             <a href="/logout" class="btn btn-danger logout-btn">Sair</a>
         </header>
 
-        <form method="GET" action="/pesquisa/">
+        <form method="GET" action="{% url 'search' %}">
             {% csrf_token %}
             <div class="form-group">
                 <input type="text" name="query" class="form-control" placeholder="Buscar produto..." required>
@@ -38,19 +38,30 @@
         </form>
 
         <h3 class="mt-4">Resultados da Pesquisa</h3>
-        <div class="product-card">
-            <h4>Produto Exemplo</h4>
-            <p>Banca: Feira Central</p>
-            <p>Avaliação: ⭐⭐⭐⭐☆ (4.0)</p>
-            <a href="/detalhes/1" class="btn btn-info">Ver detalhes</a>
+        
+        <!-- Filtro de preço (opcional) -->
+        <div class="mb-3">
+            <select id="filtro" name="filtro" class="form-select">
+                <option value="">Filtro</option>
+                <option value="menor_preco">Menor preço</option>
+                <option value="maior_preco">Maior preço</option>
+            </select>
         </div>
 
-        <div class="product-card">
-            <h4>Produto Exemplo 2</h4>
-            <p>Banca: Mercado Popular</p>
-            <p>Avaliação: ⭐⭐⭐⭐⭐ (5.0)</p>
-            <a href="/detalhes/2" class="btn btn-info">Ver detalhes</a>
-        </div>
+        <!-- Exibição dos produtos -->
+        {% if produtos %}
+            {% for produto in produtos %}
+                <div class="product-card">
+                    <h4>{{ produto.nome }}</h4>
+                    <p>Banca: {{ produto.banca }}</p>
+                    <p>Preço: {{ produto.preco }}</p>
+                    <p>Avaliação: ({{ produto.avaliacao }})</p>
+                    <a href="" class="btn btn-info">Ver detalhes</a>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>Nenhum produto encontrado.</p>
+        {% endif %}
     </div>
 </body>
 </html>

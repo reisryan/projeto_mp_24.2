@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 from django.contrib.auth import get_user_model
-
+from .models import Produto
+from django.db.models import Q
 def index(request):
     return HttpResponse("Hello, world. You're at the feiras index.")
 
@@ -56,8 +57,30 @@ def cadastro(request):
             
 def consumidor_page(request):
     if request.method == 'GET':
-        return render(request, 'usuarioLogado.html')
+        produtos = Produto.objects.all()
+        return render(request, 'usuarioLogado.html', {'produtos': produtos})
+        
 
 def feirante_page(request):
     if request.method == 'GET':
         return render(request, 'feirante.html')
+    
+def search(request):
+    # Obtemos o parâmetro de pesquisa da query string
+    searched = request.GET.get('query', '')
+    filtro = request.GET.get('filtro', '')
+
+    if searched:
+        produtos = Produto.objects.filter(Q(nome__icontains=searched))
+    else:
+        produtos = Produto.objects.all()
+
+     # Aplicar filtro de preço
+    if filtro == 'menor_preco':
+        produtos = produtos.order_by('preco')
+        print("aqui")
+    elif filtro == 'maior_preco':
+        produtos = produtos.order_by('-preco')
+        print("aqui2")
+    
+    return render(request, 'usuarioLogado.html', {'searched': searched, 'produtos': produtos})

@@ -176,22 +176,25 @@ def test_login_usuario():
         password="SenhaForte123"
     )
 
-    # Dados de login
+    # Dados de login com tipo de usuário
     login_data = {
         "username": "usuario_teste",
         "password": "SenhaForte123",
+        "tipo_usuario": "CON",  # Ajuste conforme necessário (FEI ou CON)
     }
 
-    # Descobrir a URL correta do login
-    login_url = "/feira/"  # Ajuste conforme necessário
+    # URL de login (ajuste conforme necessário)
+    login_url = "/feira/"
 
-    # Tentar acessar a página de login antes de enviar o formulário (opcional)
+    # Acessa a página de login para verificar se existe
     response = client.get(login_url)
     assert response.status_code == 200, "Página de login não encontrada"
 
     # Enviar requisição POST para login
     response = client.post(login_url, login_data)
 
-    # Verificar se o login foi bem-sucedido
+    # Verificar se o login foi bem-sucedido (código 200 ou redirecionamento 302)
     assert response.status_code in [200, 302], f"Erro no login: {response.status_code}"
+
+    # Verificar se o usuário foi autenticado
     assert "_auth_user_id" in client.session, "Usuário não autenticado"

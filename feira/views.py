@@ -11,6 +11,28 @@ from django.contrib.auth import authenticate, login as auth_login
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.http import HttpResponse
 
+
+'''
+***************************************************************************
+* Função: login
+* Descrição:
+* Realiza a autenticação do usuário com base no nome de usuário e senha
+* recebidos via requisição HTTP POST.
+*
+* Parâmetros:
+* request - objeto HttpRequest contendo os dados da requisição.
+*
+* Valor retornado:
+* Página de login em caso de requisição GET.
+* Redirecionamento para a página do consumidor ou feirante em caso de login bem-sucedido.
+* Mensagem de erro em caso de falha na autenticação.
+*
+* Assertiva de entrada:
+* request não é None.
+* request é um objeto válido de HttpRequest.
+* Se request.method == 'POST', então 'username' e 'password' devem estar em request.POST.
+***************************************************************************
+'''
 def login(request):
     if request.method == 'GET':
         return render(request, 'login.html')

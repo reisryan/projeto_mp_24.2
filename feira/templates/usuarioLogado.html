@@ -35,18 +35,35 @@
                 <input type="text" name="query" class="form-control" placeholder="Buscar produto..." required>
             </div>
             <button type="submit" class="btn btn-primary">Pesquisar</button>
+            <div class="mb-3">
+            <br>
+            <select id="filtro" name="filtro" class="form-select">
+                <option value="">Filtrar por preço</option>
+                <option value="menor_preco">Menor preço</option>
+                <option value="maior_preco">Maior preço</option>
+            </select>
+            <br><br>
+            <select id="categoria" name="categoria" class="form-select">
+                <option value="">Filtrar por categoria</option>
+                <option value="VEST">Vestimenta</option>
+                <option value="ACES">Acessórios</option>
+                <option value="TECN">Tecnologia</option>
+            </select>
+            <br><br>
+            <select id="barraca" name="barraca" class="form-select">
+                <option value="">Filtrar por barraca</option>
+                {% for barraca in barracas %}
+                    <option value="{{ barraca.id }}">{{ barraca.nome }}</option>
+                {% endfor %}
+            </select>
+
+        </div>
         </form>
 
         <h3 class="mt-4">Resultados da Pesquisa</h3>
         
         <!-- Filtro de preço (opcional) -->
-        <div class="mb-3">
-            <select id="filtro" name="filtro" class="form-select">
-                <option value="">Filtro</option>
-                <option value="menor_preco">Menor preço</option>
-                <option value="maior_preco">Maior preço</option>
-            </select>
-        </div>
+        
 
         <!-- Exibição dos produtos -->
         {% if produtos %}

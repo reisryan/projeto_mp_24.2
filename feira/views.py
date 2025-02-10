@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.contrib.auth import get_user_model
-from .models import Produto
+from .models import Produto, Barraca
 from django.db.models import Q
 def index(request):
     return HttpResponse("Hello, world. You're at the feiras index.")
@@ -58,7 +58,9 @@ def cadastro(request):
 def consumidor_page(request):
     if request.method == 'GET':
         produtos = Produto.objects.all()
-        return render(request, 'usuarioLogado.html', {'produtos': produtos})
+        barracas = Barraca.objects.all()
+
+        return render(request, 'usuarioLogado.html', {'produtos': produtos, 'barracas': barracas })
         
 
 def feirante_page(request):
@@ -69,16 +71,25 @@ def search(request):
     # Obtemos o parâmetro de pesquisa da query string
     searched = request.GET.get('query', '')
     filtro = request.GET.get('filtro', '')
+    categoria = request.GET.get('categoria', '')
+    barraca_id = request.GET.get('barraca', '')
+
+    produtos = Produto.objects.all()
+    barracas = Barraca.objects.all()
+
+    if barraca_id:
+        produtos = produtos.filter(barraca_id=barraca_id)
 
     if searched:
         produtos = Produto.objects.filter(Q(nome__icontains=searched))
-    else:
-        produtos = Produto.objects.all()
+    
+    if categoria:
+        produtos = produtos.filter(tipo_produto=categoria)
 
      # Aplicar filtro de preço
     if filtro == 'menor_preco':
         produtos = produtos.order_by('preco')
     elif filtro == 'maior_preco':
         produtos = produtos.order_by('-preco')
-        
-    return render(request, 'usuarioLogado.html', {'searched': searched, 'produtos': produtos})
+
+    return render(request, 'usuarioLogado.html', {'produtos': produtos, 'barracas': barracas})

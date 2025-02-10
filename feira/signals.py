@@ -13,7 +13,7 @@ def criar_localizacao_usuario(sender, instance, created, **kwargs):
 @receiver(post_save, sender=Barraca)
 def criar_localizacao_barraca(sender, instance, created, **kwargs):
     if created and (instance.latitude is None or instance.longitude is None):
-        latitude, longitude = Localizacao.gerar_localizacao()
-        instance.latitude = latitude
-        instance.longitude = longitude
+        localizacao = Localizacao.gerar_localizacao()
+        instance.latitude = localizacao.latitude
+        instance.longitude = localizacao.longitude
         instance.save()

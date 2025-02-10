@@ -6,7 +6,7 @@ from math import radians, sin, cos
 class Localizacao(models.Model):
     BASE_LATITUDE = -23.5505  # Exemplo: São Paulo
     BASE_LONGITUDE = -46.6333
-    RADIUS_METERS = 200
+    RADIUS_METERS = 100
 
     latitude = models.FloatField()
     longitude = models.FloatField()

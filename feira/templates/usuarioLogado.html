@@ -73,7 +73,8 @@
                     <p>Barraca: {{ produto.barraca.nome}}</p>
                     <p>Tipo: {{  produto.get_tipo_produto_display }}</p>
                     <p>Preço: {{ produto.preco }}</p>
-                    <p>Avaliação: ({{ produto.nota_media }})</p>
+                    <p>Avaliação: {{ produto.nota_media }}</p>
+                    <p>Distância: {{ produto.distancia|floatformat:2 }} metros</p>
                 </div>
             {% endfor %}
         {% else %}

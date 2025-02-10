@@ -2,6 +2,7 @@ from django.http import HttpResponse
 from django.contrib.auth import get_user_model
 from .models import Produto, Barraca
 from django.db.models import Q
+
 def index(request):
     return HttpResponse("Hello, world. You're at the feiras index.")
 
@@ -10,6 +11,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login as auth_login
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.http import HttpResponse
+from geopy.distance import geodesic
 
 
 '''
@@ -81,8 +83,8 @@ def consumidor_page(request):
     if request.method == 'GET':
         produtos = Produto.objects.all()
         barracas = Barraca.objects.all()
-
-        return render(request, 'usuarioLogado.html', {'produtos': produtos, 'barracas': barracas })
+        produtos = calc_dist_user_barraca(request, produtos)
+        return render(request, 'usuarioLogado.html', {'produtos': produtos, 'barracas': barracas})
         
 
 def feirante_page(request):
@@ -113,5 +115,14 @@ def search(request):
         produtos = produtos.order_by('preco')
     elif filtro == 'maior_preco':
         produtos = produtos.order_by('-preco')
+    
+    produtos = calc_dist_user_barraca(request , produtos)
 
     return render(request, 'usuarioLogado.html', {'produtos': produtos, 'barracas': barracas})
+
+def calc_dist_user_barraca(request, produtos):
+    user_location = (request.user.latitude, request.user.longitude)
+    for produto in produtos:
+        barraca_location = (produto.barraca.latitude, produto.barraca.longitude)
+        produto.distancia = geodesic(user_location, barraca_location).miles
+    return produtos

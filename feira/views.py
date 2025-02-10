@@ -70,8 +70,8 @@ def cadastro(request):
         else:
             try:
                 user = get_user_model().objects.create_user(username=username, email=email, telefone=phone, password=senha, tipo_user=tipo_usuario)
-            except:
-                return HttpResponse('Erro ao cadastrar usuário')
+            except Exception as e:
+                return HttpResponse(f'Erro ao cadastrar usuário: {e}')
             else:
                 user.save()
                 HttpResponse('Usuario cadastrado com sucesso')

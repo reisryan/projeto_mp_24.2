@@ -1,5 +1,26 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from random import uniform
+from math import radians, sin, cos
+
+class Localizacao(models.Model):
+    BASE_LATITUDE = -23.5505  # Exemplo: São Paulo
+    BASE_LONGITUDE = -46.6333
+    RADIUS_METERS = 200
+
+    latitude = models.FloatField()
+    longitude = models.FloatField()
+
+    @staticmethod
+    def gerar_localizacao():
+        deslocamento_graus = Localizacao.RADIUS_METERS / 111000  # Aproximadamente 111 km por grau
+        angulo = radians(uniform(0, 360))
+        distancia = uniform(0, deslocamento_graus)
+
+        latitude = Localizacao.BASE_LATITUDE + (distancia * sin(angulo))
+        longitude = Localizacao.BASE_LONGITUDE + (distancia * cos(angulo)) / cos(radians(Localizacao.BASE_LATITUDE))
+        
+        return Localizacao.objects.create(latitude=latitude, longitude=longitude)
 
 class User(AbstractUser):
     class TipoUser(models.TextChoices):
@@ -9,22 +30,21 @@ class User(AbstractUser):
     
     base_user = TipoUser.ADMINISTRADOR
     tipo_user = models.CharField(max_length=3, choices=TipoUser.choices, default=base_user)
-    
+    latitude = models.FloatField(blank=True, null=True)
+    longitude = models.FloatField(blank=True, null=True)
     telefone = models.CharField(max_length=20, blank=True, null=True)
 
 class Feira(models.Model):
     nome = models.CharField(max_length=100, unique=True)
-    longitude = models.FloatField()
-    latitude = models.FloatField()
-
     def __str__(self):
         return self.nome
 
 class Barraca(models.Model):
     nome = models.CharField(max_length=100)
     dono_user = models.ForeignKey(User, on_delete=models.CASCADE)
-    longitude = models.FloatField()
-    latitude = models.FloatField()
+    latitude = models.FloatField(blank=True, null=True)
+    longitude = models.FloatField(blank=True, null=True)
+    telefone = models.CharField(max_length=20, blank=True)
     feira = models.ForeignKey(Feira, on_delete=models.CASCADE)
     observacoes = models.TextField(blank=True, null=True)
 

@@ -1,3 +1,4 @@
 Data	Horas Trabalhadas	Tipo tarefa	                                Descrição
 4/02            1h          elaboração front-end                        index.html, login.html, style.css 
 4/02            37m         elaboração front-end                        index.html, style.css
+11/02           40m         elaboração front-end e alterações no back   index.html, usuarioLogado.html, css/style.css, urls.py, views.py

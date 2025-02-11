@@ -10,12 +10,19 @@
             background-color: #f8f9fa;
             padding: 20px;
         }
+        .product-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
         .product-card {
-            background: white;
+            background: rgb(218, 197, 8);
             padding: 15px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            margin-bottom: 15px;
+            height: auto;
+            width: 45%;
+            min-width: 220px;
         }
         .logout-btn {
             float: right;
@@ -31,6 +38,7 @@
             {% endif %}
         </header>
 
+        <h3> Olá, usuário {{ username }}</h3>
         <form method="GET" action="{% url 'search' %}">
             {% csrf_token %}
             <div class="form-group">
@@ -69,18 +77,20 @@
 
         <!-- Exibição dos produtos -->
         {% if produtos %}
+            <div class="product-container">
             {% for produto in produtos %}
                 <div class="product-card">
-                    <h4>{{ produto.nome }}</h4>
-                    <p>Barraca: {{ produto.barraca.nome}}</p>
-                    <p>Tipo: {{  produto.get_tipo_produto_display }}</p>
-                    <p>Preço: {{ produto.preco }}</p>
-                    <p>Avaliação: {{ produto.nota_media }}</p>
-                    <p>Distância: {{ produto.distancia|floatformat:2 }} metros</p>
+                    <h5>{{ produto.nome }}</h5>
+                    <h6>Barraca: {{ produto.barraca.nome}}</h6>
+                    <h6>Tipo: {{  produto.get_tipo_produto_display }}</h6>
+                    <h6>Preço: {{ produto.preco }}</h6>
+                    <h6>Avaliação: {{ produto.nota_media }}</h6>
+                    <h6>Distância: {{ produto.distancia|floatformat:2 }} metros</h6>
                 </div>
             {% endfor %}
+            </div>
         {% else %}
-            <p>Nenhum produto encontrado.</p>
+            <h6>Nenhum produto encontrado.</h6>
         {% endif %}
     </div>
 </body>

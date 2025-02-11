@@ -8,7 +8,7 @@
 </head>
 <body>
     <main class="container mt-5">
-        <p>Bem vindo a feira, faça o login</p>
+        <p>Bem vindo ao buscador, faça o login</p>
         <form method="POST" action="">
             {% csrf_token %}
             <fieldset>
@@ -22,10 +22,10 @@
                     <input type="password" id="password" name="password" class="form-control" placeholder="Senha" required>
                 </div>
                 <div class="mb-3">
-                    <label for="tipo_user" class="form-label">Selecione o tipo de usuário</label>
+                    <label for="tipo_user" class="form-label">Tipo de usuário</label>
                     <select id="tipo_user" name="tipo_user" class="form-select" required>
-                        <option value="FEI">FEI</option>
-                        <option value="CON">CON</option>
+                        <option value="FEI">Feirante</option>
+                        <option value="CON">Consumidor</option>
                     </select>
                 </div>
                 <button type="submit" class="btn btn-primary">Entrar</button>

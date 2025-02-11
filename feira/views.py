@@ -15,6 +15,10 @@ from django.http import HttpResponse
 from geopy.distance import geodesic
 
 
+def index(request):
+    if request.method == 'GET':
+        return render(request, 'index.html')
+
 '''
 ***************************************************************************
 * Função: login
@@ -82,6 +86,7 @@ def cadastro(request):
             
 def consumidor_page(request):
     if request.method == 'GET':
+        username = request.GET['username']
         produtos = Produto.objects.all()
         barracas = Barraca.objects.all()
         produtos = calc_dist_user_barraca(request, produtos)

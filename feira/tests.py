@@ -198,3 +198,23 @@ def test_login_usuario():
 
     # Verificar se o usuário foi autenticado
     assert "_auth_user_id" in client.session, "Usuário não autenticado"
+
+@pytest.mark.django_db
+def test_logout(client):
+    # Cria um superusuário
+    user = User.objects.create_superuser(username="admin", email="admin@dominio.com", password="senha123")
+    
+    # Faz login
+    assert client.login(username="admin", password="senha123"), "Falha no login."
+
+    # Faz logout
+    response = client.get("/feira/logout/")  
+
+    # Verifica se houve redirecionamento
+    assert response.status_code == 302, f"Esperado 302, mas recebeu {response.status_code}."
+
+    # Confirma se redirecionou para a página correta
+    assert response.url == "/feira/", f"Redirecionamento incorreto: {response.url}"
+
+    # Confirma se o usuário foi deslogado
+    assert "_auth_user_id" not in client.session, "Usuário ainda está logado."

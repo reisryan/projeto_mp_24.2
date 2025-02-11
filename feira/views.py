@@ -1,5 +1,6 @@
 from django.http import HttpResponse
 from django.contrib.auth import get_user_model
+from django.contrib.auth import logout
 from .models import Produto, Barraca
 from django.db.models import Q
 
@@ -126,3 +127,7 @@ def calc_dist_user_barraca(request, produtos):
         barraca_location = (produto.barraca.latitude, produto.barraca.longitude)
         produto.distancia = geodesic(user_location, barraca_location).miles
     return produtos
+
+def logout_view(request):
+    logout(request)  # Realiza o logout
+    return redirect('login')  # Redireciona para a página de login (ou pode ser outra página)

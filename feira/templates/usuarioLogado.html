@@ -26,7 +26,9 @@
     <div class="container">
         <header class="d-flex justify-content-between align-items-center mb-4">
             <h2>Site da Feira</h2>
-            <a href="/logout" class="btn btn-danger logout-btn">Sair</a>
+            {% if user.is_authenticated %}
+            <a href="{% url 'logout' %}" class="btn btn-danger logout-btn">Sair</a>
+            {% endif %}
         </header>
 
         <form method="GET" action="{% url 'search' %}">

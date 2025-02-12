@@ -2,4 +2,12 @@ Data          Horas trabalhadas          tipo de tarefa                    Descr
 
 03/02         2h                         Revisão do material de base       Revisão do material teórico a fim de embasamento e     proposta de reunião com todos os integrantes do grupo.
 05/02         1h                         Design                            Planejamento e implementação de uma visão geral do backend.
-12/92         2h/dia                     Estudo em programação             Aprendizagem de Python para a implementação.
+
+07/02         1h                         Criação da classe localização     Implementação da classe localização que será instanciada no objeto de usuário e barraca posteriormente.
+
+08/02         1h                         Cálculo da distância 
+                                         entre user e barraca              Implementação do cálculo da distância entre a barraca e o usuário.
+
+09/02         2h                         Implementação das coordenadas     Todo os objetos usuarios e barracas tem um objeto de localização, definindo uma latitude e logintude
+                                         para o usuario e barraca          toda vez que forem instanciados.        
+                                         

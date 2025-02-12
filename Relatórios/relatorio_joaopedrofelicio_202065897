@@ -1,0 +1,18 @@
+Data	Horas Trabalhadas	Tipo tarefa	                                Descrição
+27/01	30min	              Revisar especificações	                Discussão com o grupo sobre o projeto
+
+28/01	30min	              Revisão dos materiais de aula e
+                          estudo do django
+
+29/01	1h	                criação da tela de login	                Criação do codigo html e css da pagina de login
+
+29/01	1h	                criacao da tela de cadastro               Criação do codigo html e css da pagina de cadastro
+
+30/01	1h	                implementação	das funcionalidade          autenticação e todo o back end das telas de login e cadastro
+                          da tela de login e cadastro                
+
+07/02 4h                  implementação dos filtros de pesquisa    filtrar por barraca, preço e por tipo de produto
+                          da pagina do consumidor                  
+
+08/02 4h                 implementação das coordenadas para o      todo o usuario e barraca tem um objeto de localização associado                          
+                         usuario e barraca

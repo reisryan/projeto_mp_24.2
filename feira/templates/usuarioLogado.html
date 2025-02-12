@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,11 +11,13 @@
             background-color: #f8f9fa;
             padding: 20px;
         }
+
         .product-container {
             display: flex;
             flex-wrap: wrap;
             gap: 15px;
         }
+
         .product-card {
             background: rgb(218, 197, 8);
             padding: 15px;
@@ -24,11 +27,59 @@
             width: 45%;
             min-width: 220px;
         }
+
         .logout-btn {
             float: right;
         }
+
+        /* Esconde o checkbox */
+        .toggle-review {
+            display: none;
+        }
+
+        /* Esconde o formulário por padrão */
+        .review-form {
+            display: none;
+        }
+
+        /* Exibe o formulário quando o checkbox está marcado */
+        .toggle-review:checked+.review-button+.review-form {
+            display: block;
+        }
+
+        /* Estiliza as estrelas */
+        .star-rating {
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: center;
+            font-size: 2em;
+        }
+
+        .star-rating input {
+            display: none;
+        }
+
+        .star-rating label {
+            cursor: pointer;
+            color: gray;
+        }
+
+        .star-rating input:checked~label,
+        .star-rating label:hover,
+        .star-rating label:hover~label {
+            color: gold;
+
+        }
+
+        .nota-text {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+        }
     </style>
 </head>
+
 <body>
     <div class="container">
         <header class="d-flex justify-content-between align-items-center mb-4">
@@ -46,52 +97,99 @@
             </div>
             <button type="submit" class="btn btn-primary">Pesquisar</button>
             <div class="mb-3">
-            <br>
-            <select id="filtro" name="filtro" class="form-select">
-                <option value="">Filtrar por preço</option>
-                <option value="menor_preco">Menor preço</option>
-                <option value="maior_preco">Maior preço</option>
-            </select>
-            <br><br>
-            <select id="categoria" name="categoria" class="form-select">
-                <option value="">Filtrar por categoria</option>
-                <option value="VEST">Vestimenta</option>
-                <option value="ACES">Acessórios</option>
-                <option value="TECN">Tecnologia</option>
-            </select>
-            <br><br>
-            <select id="barraca" name="barraca" class="form-select">
-                <option value="">Filtrar por barraca</option>
-                {% for barraca in barracas %}
+                <br>
+                <select id="filtro" name="filtro" class="form-select">
+                    <option value="">Filtrar por preço</option>
+                    <option value="menor_preco">Menor preço</option>
+                    <option value="maior_preco">Maior preço</option>
+                </select>
+                <br><br>
+                <select id="categoria" name="categoria" class="form-select">
+                    <option value="">Filtrar por categoria</option>
+                    <option value="VEST">Vestimenta</option>
+                    <option value="ACES">Acessórios</option>
+                    <option value="TECN">Tecnologia</option>
+                </select>
+                <br><br>
+                <select id="barraca" name="barraca" class="form-select">
+                    <option value="">Filtrar por barraca</option>
+                    {% for barraca in barracas %}
                     <option value="{{ barraca.id }}">{{ barraca.nome }}</option>
-                {% endfor %}
-            </select>
+                    {% endfor %}
+                </select>
 
-        </div>
+            </div>
         </form>
 
         <h3 class="mt-4">Resultados da Pesquisa</h3>
-        
+
         <!-- Filtro de preço (opcional) -->
-        
+
 
         <!-- Exibição dos produtos -->
         {% if produtos %}
-            <div class="product-container">
+        <div class="product-container">
             {% for produto in produtos %}
-                <div class="product-card">
-                    <h5>{{ produto.nome }}</h5>
-                    <h6>Barraca: {{ produto.barraca.nome}}</h6>
-                    <h6>Tipo: {{  produto.get_tipo_produto_display }}</h6>
-                    <h6>Preço: {{ produto.preco }}</h6>
-                    <h6>Avaliação: {{ produto.nota_media }}</h6>
-                    <h6>Distância: {{ produto.distancia|floatformat:2 }} metros</h6>
+            <div class="product-card">
+                <h5>{{ produto.nome }}</h5>
+                <h6>Barraca: {{ produto.barraca.nome}}</h6>
+                <h6>Tipo: {{ produto.get_tipo_produto_display }}</h6>
+                <h6>Preço: {{ produto.preco }}</h6>
+                <h6>Avaliação: {{ produto.nota_media }}</h6>
+                <h6>Distância: {{ produto.distancia|floatformat:2 }} metros</h6>
+
+                {% if user.is_authenticated %}
+                <!-- Checkbox invisível -->
+                <input type="checkbox" id="toggle-{{ produto.id }}" class="toggle-review">
+                <label for="toggle-{{ produto.id }}" class="review-button btn btn-primary">Fazer uma avaliação</label>
+
+                <div class="review-form">
+                    <fieldset>
+                        <h5>Avalie este produto</h5>
+                        <form method="POST" action="{% url 'submit_review' produto.id %}">
+                            {% csrf_token %}
+
+                            <div class="nota-text">
+                                <label>Nota:</label>
+
+                                <div class="star-rating">
+
+                                    <input type="radio" id="star5_{{ produto.id }}" name="nota" value="5" required>
+                                    <label for="star5_{{ produto.id }}">★</label>
+
+                                    <input type="radio" id="star4_{{ produto.id }}" name="nota" value="4">
+                                    <label for="star4_{{ produto.id }}">★</label>
+
+                                    <input type="radio" id="star3_{{ produto.id }}" name="nota" value="3">
+                                    <label for="star3_{{ produto.id }}">★</label>
+
+                                    <input type="radio" id="star2_{{ produto.id }}" name="nota" value="2">
+                                    <label for="star2_{{ produto.id }}">★</label>
+
+                                    <input type="radio" id="star1_{{ produto.id }}" name="nota" value="1">
+                                    <label for="star1_{{ produto.id }}">★</label>
+                                </div>
+                            </div>
+
+                            <label for="comentario"><strong>Comentário:</strong></label>
+                            <br>
+                            <textarea name="comentario" rows="3" cols="20"
+                                placeholder="Deixe um comentário (opcional)"></textarea>
+
+
+                            <button type="submit" class="btn btn-primary">Enviar Avaliação</button>
+                        </form>
+                    </fieldset>
                 </div>
-            {% endfor %}
+                {% endif %}
+
             </div>
+            {% endfor %}
+        </div>
         {% else %}
-            <h6>Nenhum produto encontrado.</h6>
+        <h6>Nenhum produto encontrado.</h6>
         {% endif %}
     </div>
 </body>
+
 </html>

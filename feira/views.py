@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from django.contrib.auth import get_user_model
 from django.contrib.auth import logout
-from .models import Produto, Barraca
+from .models import Produto, Barraca, Review
 from django.db.models import Q
 
 def index(request):
@@ -136,3 +136,24 @@ def calc_dist_user_barraca(request, produtos):
 def logout_view(request):
     logout(request)  # Realiza o logout
     return redirect('login')  # Redireciona para a página de login (ou pode ser outra página)
+
+def submit_review(request, produto_id):
+    if request.method == 'POST' and request.user.is_authenticated:
+        produto = Produto.objects.get(id=produto_id)
+        nota = int(request.POST.get('nota'))
+        comentario = request.POST.get('comentario', '')
+        
+        # Cria a avaliação
+        Review.objects.create(
+            user=request.user,
+            produto=produto,
+            nota=nota,
+            comentario=comentario
+        )
+        
+        # Atualiza a média
+        reviews = produto.review_set.all()
+        produto.nota_media = sum(r.nota for r in reviews) / reviews.count()
+        produto.save()
+        
+    return redirect('consumidor_page')

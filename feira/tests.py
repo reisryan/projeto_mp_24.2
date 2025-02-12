@@ -40,7 +40,7 @@ def test_admin_preenche(client):
     response = client.get('/admin/')
     assert response.status_code == 200
 
-'''
+
 @pytest.fixture(scope="function")
 def browser():
     options = Options()
@@ -123,7 +123,7 @@ def test_cadastra_produto(logged_in_browser, live_server):
 
     WebDriverWait(logged_in_browser, 10).until(EC.url_contains('/produto/'))
     assert '/produto/' in logged_in_browser.current_url
-'''
+
 
 @pytest.mark.django_db
 def test_tela_login():

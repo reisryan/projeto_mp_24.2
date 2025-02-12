@@ -86,7 +86,7 @@ def cadastro(request):
             
 def consumidor_page(request):
     if request.method == 'GET':
-        username = request.GET['username']
+        #username = request.GET['username']
         produtos = Produto.objects.all()
         barracas = Barraca.objects.all()
         produtos = calc_dist_user_barraca(request, produtos)
@@ -130,7 +130,7 @@ def calc_dist_user_barraca(request, produtos):
     user_location = (request.user.latitude, request.user.longitude)
     for produto in produtos:
         barraca_location = (produto.barraca.latitude, produto.barraca.longitude)
-        produto.distancia = geodesic(user_location, barraca_location).miles
+        produto.distancia = int(geodesic(user_location, barraca_location).meters)
     return produtos
 
 def logout_view(request):

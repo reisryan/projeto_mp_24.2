@@ -89,9 +89,8 @@
             {% endif %}
         </header>
 
-        <h3> Olá, usuário {{ username }}</h3>
+        <h3> Olá, usuário {{ user.username }}</h3>
         <form method="GET" action="{% url 'search' %}">
-            {% csrf_token %}
             <div class="form-group">
                 <input type="text" name="query" class="form-control" placeholder="Buscar produto..." required>
             </div>
@@ -136,7 +135,7 @@
                 <h6>Tipo: {{ produto.get_tipo_produto_display }}</h6>
                 <h6>Preço: {{ produto.preco }}</h6>
                 <h6>Avaliação: {{ produto.nota_media }}</h6>
-                <h6>Distância: {{ produto.distancia|floatformat:2 }} metros</h6>
+                <h6>Distância: Aproximadamente {{ produto.distancia}} metros</h6>
 
                 {% if user.is_authenticated %}
                 <!-- Checkbox invisível -->

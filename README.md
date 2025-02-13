@@ -8,5 +8,7 @@
 
 Notion:
 > https://www.notion.so/Scrum-Board-191c1d237f3d8078b0d7d73ced245774
+
+
 Repositório:
 > https://github.com/reisryan/projeto_mp_24.2

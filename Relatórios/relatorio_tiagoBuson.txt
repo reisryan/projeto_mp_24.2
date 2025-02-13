@@ -1,0 +1,6 @@
+Data	Horas Trabalhadas	Tipo tarefa	                                Descrição
+26/01	30 min	                Revisar especificações	                        Discussão com o grupo sobre o projeto
+02/02   3h                      Django                                          Iniciando projeto Django
+04/01   2h                      Banco de dados                                  Criando banco de dados
+06/02   1h                      Banco de dados                                  Criando tabelas do banco de dados 
+09/02   1h                      Implementando backend                           Implementando funções do backend
